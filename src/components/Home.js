@@ -1,17 +1,39 @@
 import React, { useEffect, useState } from "react";
-import evening from "../Media/evening.jpg";
 import thunderstorm from "../Media/thunderstorm.jpg";
 import thunderstormday from "../Media/thunderstorm-day.jpg";
-import drizzle from '../Media/drizzle.jpg'
+import cloudday from "../Media/cloudday.jpg";
+import cloudeven from "../Media/cloudeven.jpg";
+import cloudnight from "../Media/cloudnight.jpg";
+import clearnight from "../Media/clearnight.jpg";
+import clearday from "../Media/clearday.jpeg";
+import cleareven from "../Media/cleareven.jpg";
+import drizzle from "../Media/drizzle.jpg";
+import snowday from "../Media/snowday.jpg";
+import snownight from "../Media/snownight.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
-  faCloud,
   faCloudRain,
-  faCloudBolt,
   faThunderstorm,
   faDroplet,
+  faSunPlantWilt,
+  faBlackboard,
 } from "@fortawesome/free-solid-svg-icons";
+
+import { HiOutlineSun } from "react-icons/hi";
+import {
+  BsCloudLightningRain,
+  BsCloudDrizzle,
+  BsCloudRainHeavy,
+  BsCloudSun,
+  BsCloudMoon,
+  BsMoon,
+  BsSun,
+  BsSnow2,
+  BsSnow,
+} from "react-icons/bs";
+
+import { WiSunset } from "react-icons/wi";
 
 const Home = () => {
   const [weatherState, setWeatherState] = useState({
@@ -63,9 +85,9 @@ const Home = () => {
   const [timeString, setTimeString] = useState("");
   const [timeDate, setTimeDate] = useState(new Date());
   const [mediaState, setMediaState] = useState({
-    bg: drizzle,
-          accentColor: 'black',
-          icon: faCloudRain
+    bg: clearday,
+    accentColor: "#528eba",
+    icon: <BsSun />,
   });
 
   const fetchCord = async () => {
@@ -73,6 +95,7 @@ const Home = () => {
     const coord = await fetch(
       `https://api.openweathermap.org/geo/1.0/direct?q=${name}&limit=1&appid=aaa66796b8553651c95dfb9c2e7f0e59`
     ).then((res) => res.json());
+
     console.log(coord);
     if (Array.isArray(coord) && coord.length > 0) fetchData(coord[0]);
     else {
@@ -147,44 +170,85 @@ const Home = () => {
 
   useEffect(() => {
     calcTime();
+    calcMedia();
   }, [weatherState]);
+
 
   const calcMedia = () => {
     let currTime = timeDate.getHours();
     let weather = weatherState.weather[0].main;
 
-    if (weather == "Thunderstorm" || weather == "Rain") {
-      if (currTime > 18)
+    if (weather === "Thunderstorm") {
+      setMediaState({
+        bg: currTime > 20 || currTime < 5 ? thunderstorm : thunderstormday,
+        accentColor: "#7e7d85",
+        icon: <BsCloudLightningRain />,
+      });
+    } else if (weather === "Drizzle") {
+      setMediaState({
+        bg: drizzle,
+        accentColor: "#1f3d50",
+        icon: <BsCloudDrizzle />,
+      });
+    } else if (weather === "Rain") {
+      setMediaState({
+        bg: currTime > 20 || currTime < 5 ? thunderstorm : thunderstormday,
+        accentColor: "#7e7d85",
+        icon: <BsCloudRainHeavy />,
+      });
+    } else if (weather === "Clouds") {
+      if (currTime > 20 || currTime < 5) {
         setMediaState({
-          bg: thunderstorm,
-          accentColor: "#7e7d85",
-          icon: faThunderstorm,
+          bg: cloudnight,
+          accentColor: "#66584d",
+          icon: <BsCloudMoon />,
         });
-      else {
+      } else if (currTime > 16) {
         setMediaState({
-          bg: thunderstormday,
-          accentColor: "#b8c7c2",
-          icon: faThunderstorm,
+          bg: cloudeven,
+          accentColor: "#e8b151",
+          icon: <BsCloudSun />,
+        });
+      } else {
+        setMediaState({
+          bg: cloudday,
+          accentColor: "#0e93d8",
+          icon: <BsCloudSun />,
         });
       }
-    } else if (weather == "Drizzle") {
-      if (currTime > 18) {
+    } else if (weather === "Snow") {
+      setMediaState({
+        bg: currTime > 20 || currTime < 5 ? snownight : snowday,
+        accentColor: "#0b0a0f",
+        icon: <BsSnow2 />,
+      });
+    } else {
+      if (currTime > 20 || currTime < 5) {
         setMediaState({
-          bg: drizzle,
-          accentColor: '#1f3d50',
-          icon: faCloudRain
+          bg: clearnight,
+          accentColor: "#0c110b",
+          icon: <BsMoon />,
+        });
+      } else if (currTime > 16) {
+        setMediaState({
+          bg: cleareven,
+          accentColor: "#f18f63",
+          icon: <BsSun />,
+        });
+      } else {
+        setMediaState({
+          bg: clearday,
+          accentColor: "#528eba",
+          icon: <BsSun />,
         });
       }
     }
+    console.log(weatherState);
   };
 
   return (
     <div className="home d-flex">
       <img src={mediaState.bg} alt="" className="bg-img" />
-
-      {/* <button onClick={calcTime} className="btn btn-primary">
-        Get date
-      </button> */}
 
       <div className="bigInfo w-100 d-flex flex-column justify-content-between">
         <h1 className="text-white text-start ">CloudCast</h1>
@@ -202,13 +266,12 @@ const Home = () => {
             <p className="timeStamp mb-0">{timeString}</p>
           </div>
 
-          <div className="ms-4">
-            {/* <FontAwesomeIcon icon={mediaState.icon} style={{fontSize:"60px"}} /> */}
-            <FontAwesomeIcon
-              icon={faCloudRain}
-              style={{ fontSize: "60px" }}
-            />
-            <p className="mb-0 mt-4">{weatherState.weather[0].main}</p>
+          <div className="ms-4 d-flex flex-column justify-content-start">
+            <div className="mb-0" style={{ fontSize: "85px" }}>
+              {" "}
+              {mediaState.icon}
+            </div>
+            <p className="mb-5 mt-0">{weatherState.weather[0].main}</p>
           </div>
 
           <div></div>
@@ -259,7 +322,22 @@ const Home = () => {
         </div>
         <h4 className="text-white mb-4">Weather Details</h4>
         <div className="row">
-          <div className="text-grey col">
+          <div className="text-white col">
+            <p>Cloudy</p>
+            <p>Humidity</p>
+            <p>Wind</p>
+          </div>
+
+          <div className="col text-white text-end">
+            <p>{weatherState.clouds.all}% </p>
+            <p>{weatherState.main.humidity}% </p>
+            <p>{weatherState.wind.speed} km/h </p>
+          </div>
+        </div>
+
+        <h4 className="text-white py-4 border-top">Weather Details</h4>
+        <div className="row">
+          <div className="text-white col">
             <p>Cloudy</p>
             <p>Humidity</p>
             <p>Wind</p>
