@@ -89,10 +89,8 @@ const Home = () => {
       `https://api.openweathermap.org/geo/1.0/direct?q=${name}&limit=1&appid=aaa66796b8553651c95dfb9c2e7f0e59`
     ).then((res) => res.json());
 
-    console.log(coord);
     if (Array.isArray(coord) && coord.length > 0) fetchData(coord[0]);
     else {
-      console.log("wrong");
     }
   };
 
@@ -239,7 +237,6 @@ const Home = () => {
         });
       }
     }
-    console.log(weatherState);
   };
 
   return (
@@ -247,7 +244,7 @@ const Home = () => {
       <img src={mediaState.bg} alt="" className="bg-img" />
 
       <div className="bigInfo w-100 d-flex flex-column justify-content-between">
-        <h1 className="text-white text-start ">CloudCast</h1>
+        <h1 className="heading text-white text-start ">CloudCast</h1>
 
         <div className="desc d-flex align-items-center text-white">
           <h1 className="temp me-2">
@@ -263,7 +260,7 @@ const Home = () => {
           </div>
 
           <div className="icondiv ms-4 d-flex flex-column justify-content-start">
-            <div className="mb-0" style={{ fontSize: "85px" }}>
+            <div className="icon mb-0" style={{ fontSize: "85px" }}>
               {mediaState.icon}
             </div>
             <p className="mb-5 mt-0">{weatherState.weather[0].main}</p>

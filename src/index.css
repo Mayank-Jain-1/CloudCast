@@ -30,7 +30,7 @@ code {
   /* background-color: transparent; */
   background: linear-gradient( rgba(0,0,0,0.2), rgba(0,0,0,0.2));
   width: 500px;
-  min-width: 400px;
+  min-width: 300px;
   text-align: left;
   padding: 40px;
   padding-top: 0;
@@ -130,8 +130,64 @@ code {
   .home{
     flex-direction: column;
   }
+  .bigInfo{
+    padding:0;
+  }
+
+  .temp{
+    font-size: 5rem;
+  }
+
+  .nameDiv{
+    width: min-content;
+  }
+
+  .name{
+    font-size: 2.8rem;
+  }
+
+  .icon{
+    font-size: 4rem !important;
+  }
+
+
+  .heading{
+    margin: 20px;
+  }
+  .desc{
+    width: 90vw !important;
+    justify-content: space-around;
+    margin-left: 5vw;
+  }
   .info{
     width: 100vw;
     height: 100%;
+  }
+}
+
+@media (width < 540px) {
+  .info{
+    min-width: 100vw;
+  }
+
+  .temp{
+    font-size: 3rem;
+  }
+
+  .name{
+    font-size: 1.5rem;
+  }
+
+  .timeStamp{
+    font-size: 0.5rem !important;
+    transform: translateX(-10px);
+  }
+
+  .icondiv{
+    transform: translateY(15px);
+  }
+
+  .icon{
+    font-size: 2rem !important;
   }
 }
