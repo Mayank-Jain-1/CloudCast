@@ -30,6 +30,7 @@ code {
   /* background-color: transparent; */
   background: linear-gradient( rgba(0,0,0,0.2), rgba(0,0,0,0.2));
   width: 500px;
+  min-width: 400px;
   text-align: left;
   padding: 40px;
   padding-top: 0;
@@ -78,6 +79,7 @@ code {
 
 .bigInfo{
   padding: 100px 100px 50px 100px;
+  flex-wrap: wrap;
 }
 
 .temp{
@@ -95,4 +97,41 @@ code {
   text-align: left;
   padding-left: 10px;
   font-weight: 100;
+}
+
+
+@media (769px <= width < 1200px){
+  .temp{
+    text-align: left;
+    width: 75%;
+  }
+  .nameDiv{
+    width: 72%;
+  }
+  .icondiv{
+    width: 80%;
+    align-items: baseline;
+    /* transform: translateX(-10%); */
+  }
+
+  .icondiv p{
+    transform: translateX(15px);
+  }
+  .bigInfo{
+    padding: 40px 20px 0px 40px ;
+  }
+  .desc{
+    flex-direction: column;
+    padding-bottom: 10vh;
+  }
+}
+
+@media (width < 769px) {
+  .home{
+    flex-direction: column;
+  }
+  .info{
+    width: 100vw;
+    height: 100%;
+  }
 }

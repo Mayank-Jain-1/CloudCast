@@ -13,14 +13,8 @@ import snownight from "../Media/snownight.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
-  faCloudRain,
-  faThunderstorm,
-  faDroplet,
-  faSunPlantWilt,
-  faBlackboard,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { HiOutlineSun } from "react-icons/hi";
 import {
   BsCloudLightningRain,
   BsCloudDrizzle,
@@ -30,7 +24,6 @@ import {
   BsMoon,
   BsSun,
   BsSnow2,
-  BsSnow,
 } from "react-icons/bs";
 
 import { WiSunset } from "react-icons/wi";
@@ -169,10 +162,13 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    calcTime();
-    calcMedia();
+      calcTime();
   }, [weatherState]);
+  useEffect(() => {
+      calcMedia();
+  }, [timeString]);
 
+  
 
   const calcMedia = () => {
     let currTime = timeDate.getHours();
@@ -229,11 +225,11 @@ const Home = () => {
           accentColor: "#0c110b",
           icon: <BsMoon />,
         });
-      } else if (currTime > 16) {
+      } else if (currTime > 15) {
         setMediaState({
           bg: cleareven,
           accentColor: "#f18f63",
-          icon: <BsSun />,
+          icon: <WiSunset />,
         });
       } else {
         setMediaState({
@@ -261,14 +257,13 @@ const Home = () => {
             &#176;
           </h1>
 
-          <div className="me-4">
+          <div className="nameDiv me-4">
             <h1 className="name mb-0">{weatherState.name}</h1>
             <p className="timeStamp mb-0">{timeString}</p>
           </div>
 
-          <div className="ms-4 d-flex flex-column justify-content-start">
+          <div className="icondiv ms-4 d-flex flex-column justify-content-start">
             <div className="mb-0" style={{ fontSize: "85px" }}>
-              {" "}
               {mediaState.icon}
             </div>
             <p className="mb-5 mt-0">{weatherState.weather[0].main}</p>
@@ -335,18 +330,18 @@ const Home = () => {
           </div>
         </div>
 
-        <h4 className="text-white py-4 border-top">Weather Details</h4>
+        <h4 className="text-white py-4 border-top">Temperature Details</h4>
         <div className="row">
           <div className="text-white col">
-            <p>Cloudy</p>
-            <p>Humidity</p>
-            <p>Wind</p>
+            <p>Current</p>
+            <p>Minimum</p>
+            <p>Maximum</p>
           </div>
 
           <div className="col text-white text-end">
-            <p>{weatherState.clouds.all}% </p>
-            <p>{weatherState.main.humidity}% </p>
-            <p>{weatherState.wind.speed} km/h </p>
+            <p>{(weatherState.main.temp -273.0000).toFixed(3)} &#176;C </p>
+            <p>{(weatherState.main.temp_min -273).toFixed(3)} &#176;C </p>
+            <p>{(weatherState.main.temp_max -273).toFixed(3)} &#176;C </p>
           </div>
         </div>
       </div>
