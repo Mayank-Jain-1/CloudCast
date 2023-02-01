@@ -6,6 +6,10 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+::placeholder {
+  color: #ddd;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -98,6 +102,7 @@ code {
   padding-left: 10px;
   font-weight: 100;
 }
+
 
 
 @media (769px <= width < 1200px){
